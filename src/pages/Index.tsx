@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { ModeToggle } from '@/components/mode-toggle';
+import { AnalyticsChart } from '@/components/AnalyticsChart';
 
 const Index = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -163,6 +164,11 @@ const Index = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Analytics Chart */}
+        <div className="mb-6">
+          <AnalyticsChart records={attendance} />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-3">
