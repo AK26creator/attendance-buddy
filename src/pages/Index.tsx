@@ -14,6 +14,7 @@ import { ClipboardList, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
+import { ModeToggle } from '@/components/mode-toggle';
 
 const Index = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -106,15 +107,18 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={loadData}
-              className="hidden sm:flex"
-            >
-              <RefreshCw className="mr-2 h-4 w-4" />
-              Refresh
-            </Button>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={loadData}
+                className="hidden sm:flex"
+              >
+                <RefreshCw className="mr-2 h-4 w-4" />
+                Refresh
+              </Button>
+              <ModeToggle />
+            </div>
           </div>
         </div>
       </header>
