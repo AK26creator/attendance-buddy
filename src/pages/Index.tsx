@@ -93,22 +93,22 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b bg-card">
-        <div className="container py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-primary/10">
-                <ClipboardList className="h-6 w-6 text-primary" />
+        <div className="container py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="p-1.5 sm:p-2 rounded-lg bg-primary/10">
+                <ClipboardList className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold text-foreground">
+                <h1 className="text-base sm:text-xl font-semibold text-foreground leading-tight">
                   Story Seeds Office Attendance
                 </h1>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-xs sm:text-sm text-muted-foreground">
                   Manage employees and track daily attendance
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 self-end sm:self-auto">
               <Button
                 variant="outline"
                 size="sm"
@@ -125,9 +125,9 @@ const Index = () => {
       </header>
 
       {/* Main Content */}
-      <main className="container py-6">
+      <main className="container py-4 sm:py-6 px-3 sm:px-4">
         {/* Dashboard Cards */}
-        <div className="grid gap-6 md:grid-cols-3 mb-6">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-4 sm:mb-6">
           <Card className="bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-900">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-red-700 dark:text-red-400">
@@ -167,13 +167,13 @@ const Index = () => {
         </div>
 
         {/* Analytics Chart */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <AnalyticsChart records={attendance} />
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 lg:grid-cols-3">
           {/* Left Column - Employee Management */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <AddEmployeeForm onEmployeeAdded={handleEmployeeAdded} />
             <MarkAttendance
               employees={employees}
@@ -182,7 +182,7 @@ const Index = () => {
           </div>
 
           {/* Right Column - Tables */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
             <EmployeeList
               employees={employees}
               attendance={attendance}

@@ -42,13 +42,13 @@ export function AttendanceTable({ records, onRecordDeleted }: AttendanceTablePro
 
   return (
     <Card>
-      <CardHeader className="pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <CalendarDays className="h-5 w-5" />
+      <CardHeader className="pb-3 sm:pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4">
+          <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
+            <CalendarDays className="h-4 w-4 sm:h-5 sm:w-5" />
             Attendance Records ({records.length})
           </CardTitle>
-          <Button onClick={handleExport} variant="outline" size="sm">
+          <Button onClick={handleExport} variant="outline" size="sm" className="w-full sm:w-auto">
             <Download className="mr-2 h-4 w-4" />
             Download Excel
           </Button>
@@ -56,7 +56,7 @@ export function AttendanceTable({ records, onRecordDeleted }: AttendanceTablePro
       </CardHeader>
       <CardContent>
         {records.length === 0 ? (
-          <p className="text-center text-muted-foreground py-8">
+          <p className="text-center text-muted-foreground py-8 text-sm">
             No attendance records yet. Mark attendance above.
           </p>
         ) : (
