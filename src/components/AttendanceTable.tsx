@@ -68,7 +68,6 @@ export function AttendanceTable({ records, onRecordDeleted }: AttendanceTablePro
                   <TableHead className="w-[120px]">Employee ID</TableHead>
                   <TableHead>Employee Name</TableHead>
                   <TableHead className="w-[100px] text-center">Absentees</TableHead>
-                  <TableHead className="w-[100px] text-center">Late</TableHead>
                   <TableHead className="w-[100px] text-center">Present</TableHead>
                   <TableHead className="w-[150px]">Time</TableHead>
                   <TableHead className="w-[70px] text-right">Actions</TableHead>
@@ -81,25 +80,14 @@ export function AttendanceTable({ records, onRecordDeleted }: AttendanceTablePro
                     <TableCell>{record.employeeId}</TableCell>
                     <TableCell>{record.employeeName}</TableCell>
                     <TableCell className="text-center">
-                      {record.absent === 'Yes' && (
-                        <Badge variant="destructive" className="font-normal">
-                          Yes
-                        </Badge>
-                      )}
+                      <Badge variant={record.absent === 'Yes' ? 'destructive' : 'outline'} className={record.absent !== 'Yes' ? 'opacity-0' : ''}>
+                        {record.absent}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-center">
-                      {record.late === 'Yes' && (
-                        <Badge className="bg-yellow-500 hover:bg-yellow-600 font-normal">
-                          Yes
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-center">
-                      {record.present === 'Yes' && (
-                        <Badge className="bg-success text-success-foreground font-normal hover:bg-success/90">
-                          Yes
-                        </Badge>
-                      )}
+                      <Badge variant="success" className={record.present !== 'Yes' ? 'opacity-0' : ''}>
+                        {record.present}
+                      </Badge>
                     </TableCell>
                     <TableCell className="text-muted-foreground">
                       {record.time || '-'}

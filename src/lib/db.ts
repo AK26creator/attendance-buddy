@@ -22,7 +22,6 @@ export interface AttendanceRecord {
   employeeName: string;
   absent: string; // "Yes" or ""
   present: string; // "Yes" or ""
-  late: string; // "Yes" or ""
   time: string; // DD-MM-YYYY HH:mm or empty
   date: string; // DD-MM-YYYY
 }
@@ -233,23 +232,10 @@ export async function markAttendance(
   const hours = now.getHours();
   const minutes = now.getMinutes();
 
-  // Logic 4: if after 10:10 am -> Late
-  let isLate = false;
-  if (hours > 10 || (hours === 10 && minutes > 10)) {
-    isLate = true;
-  }
-
   // Logic 5: if after 12:00 pm -> Absent (force absent even if isPresent is true)
   let finalIsPresent = isPresent;
   if (hours >= 12) {
     finalIsPresent = false;
-  }
-
-  // If marked absent explicitly (or forced absent), it's not "Late" (Late implies present but late)
-  // Usually "Late" is a status of "Present".
-  // Let's assume Late only applies if they are Present.
-  if (!finalIsPresent) {
-    isLate = false;
   }
 
   const record: Omit<AttendanceRecord, 'id'> = {
@@ -258,7 +244,6 @@ export async function markAttendance(
     employeeName: employee.name,
     absent: finalIsPresent ? '' : 'Yes',
     present: finalIsPresent ? 'Yes' : '',
-    late: isLate ? 'Yes' : '',
     time: finalIsPresent ? formatDateTime(now) : '', // Time is usually recorded for present employees
     date: formatDate(now),
   };

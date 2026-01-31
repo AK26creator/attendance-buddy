@@ -12,15 +12,14 @@ export function AnalyticsChart({ records }: AnalyticsChartProps) {
     const groupedData = records.reduce((acc, record) => {
         const date = record.date;
         if (!acc[date]) {
-            acc[date] = { date, present: 0, absent: 0, late: 0 };
+            acc[date] = { date, present: 0, absent: 0 };
         }
 
         if (record.present === 'Yes') acc[date].present += 1;
         if (record.absent === 'Yes') acc[date].absent += 1;
-        if (record.late === 'Yes') acc[date].late += 1;
 
         return acc;
-    }, {} as Record<string, { date: string; present: number; absent: number; late: number }>);
+    }, {} as Record<string, { date: string; present: number; absent: number }>);
 
     // 2. Convert to array and sort by date
     const data = Object.values(groupedData).sort((a, b) => {
@@ -52,10 +51,6 @@ export function AnalyticsChart({ records }: AnalyticsChartProps) {
                                     <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8} />
                                     <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                                 </linearGradient>
-                                <linearGradient id="colorLate" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#eab308" stopOpacity={0.8} />
-                                    <stop offset="95%" stopColor="#eab308" stopOpacity={0} />
-                                </linearGradient>
                             </defs>
                             <XAxis dataKey="date" />
                             <YAxis />
@@ -75,14 +70,6 @@ export function AnalyticsChart({ records }: AnalyticsChartProps) {
                                 fillOpacity={1}
                                 fill="url(#colorPresent)"
                                 name="Present"
-                            />
-                            <Area
-                                type="monotone"
-                                dataKey="late"
-                                stroke="#eab308"
-                                fillOpacity={1}
-                                fill="url(#colorLate)"
-                                name="Late"
                             />
                             <Area
                                 type="monotone"

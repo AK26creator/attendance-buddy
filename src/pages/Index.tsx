@@ -76,7 +76,6 @@ const Index = () => {
   // Assuming strict counters based on flags.
   const totalAbsent = attendance.filter(r => r.absent === 'Yes').length;
   const totalPresent = attendance.filter(r => r.present === 'Yes').length;
-  const totalLate = attendance.filter(r => r.late === 'Yes').length;
 
   if (isLoading) {
     return (
@@ -127,7 +126,7 @@ const Index = () => {
       {/* Main Content */}
       <main className="container py-4 sm:py-6 px-3 sm:px-4">
         {/* Dashboard Cards */}
-        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 mb-4 sm:mb-6">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 mb-4 sm:mb-6">
           <Card className="bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-900">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium text-red-700 dark:text-red-400">
@@ -149,18 +148,6 @@ const Index = () => {
             <CardContent>
               <div className="text-2xl font-bold text-green-900 dark:text-green-100">
                 {totalPresent}
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="bg-yellow-50 border-yellow-200 dark:bg-yellow-900/20 dark:border-yellow-900">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
-                Total Late
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold text-yellow-900 dark:text-yellow-100">
-                {totalLate}
               </div>
             </CardContent>
           </Card>
