@@ -248,6 +248,24 @@ export async function markAttendance(
     date: formatDate(now),
   };
 
+  // Sync with Supabase
+  const { error: supabaseError } = await supabase
+    .from('attendance')
+    .insert([{
+      sno: record.sno,
+      employee_id: record.employeeId,
+      employee_name: record.employeeName,
+      absent: record.absent,
+      present: record.present,
+      time: record.time,
+      date: record.date
+    }]);
+
+  if (supabaseError) {
+    console.error('Supabase error marking attendance:', supabaseError);
+    toast.error(`Supabase Sync Failed: ${supabaseError.message}`);
+  }
+
   const id = await db.add('attendance', record as AttendanceRecord);
   return { ...record, id } as AttendanceRecord;
 }
@@ -257,6 +275,34 @@ export async function markAttendance(
  */
 export async function getAttendance(): Promise<AttendanceRecord[]> {
   const db = await getDB();
+
+  // Try to fetch from Supabase first
+  const { data: supabaseAttendance, error } = await supabase
+    .from('attendance')
+    .select('*')
+    .order('sno', { ascending: false });
+
+  if (!error && supabaseAttendance) {
+    const formatted = supabaseAttendance.map(a => ({
+      id: a.id,
+      sno: a.sno,
+      employeeId: a.employee_id,
+      employeeName: a.employee_name,
+      absent: a.absent,
+      present: a.present,
+      time: a.time,
+      date: a.date
+    }));
+
+    // Update local DB with Supabase data
+    for (const record of formatted) {
+      await db.put('attendance', record);
+    }
+
+    return formatted;
+  }
+
+  // Fallback to IndexedDB
   return db.getAll('attendance');
 }
 
@@ -280,6 +326,25 @@ export async function updateAttendance(
     id, // Ensure ID is preserved
   };
 
+  // Sync with Supabase
+  const { error: supabaseError } = await supabase
+    .from('attendance')
+    .update({
+      sno: updated.sno,
+      employee_id: updated.employeeId,
+      employee_name: updated.employeeName,
+      absent: updated.absent,
+      present: updated.present,
+      time: updated.time,
+      date: updated.date
+    })
+    .eq('id', id);
+
+  if (supabaseError) {
+    console.error('Supabase error updating attendance:', supabaseError);
+    toast.error(`Supabase Sync Failed: ${supabaseError.message}`);
+  }
+
   await db.put('attendance', updated);
   return updated;
 }
@@ -289,6 +354,18 @@ export async function updateAttendance(
  */
 export async function deleteAttendance(id: number): Promise<void> {
   const db = await getDB();
+
+  // Sync with Supabase
+  const { error: supabaseError } = await supabase
+    .from('attendance')
+    .delete()
+    .eq('id', id);
+
+  if (supabaseError) {
+    console.error('Supabase error deleting attendance:', supabaseError);
+    toast.error(`Supabase Sync Failed: ${supabaseError.message}`);
+  }
+
   await db.delete('attendance', id);
 }
 
